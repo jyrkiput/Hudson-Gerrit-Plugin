@@ -18,6 +18,12 @@
       <id>m.g.o-public</id>
       <url>http://maven.glassfish.org/content/groups/public/</url>
     </repository>
+
+    <repository>
+        <id>jgit-maven-repository</id>
+        <url>http://egit.googlecode.com/svn/maven/</url>
+    </repository>
+
   </repositories>
 
   <pluginRepositories>
@@ -26,4 +32,14 @@
       <url>http://maven.glassfish.org/content/groups/public/</url>
     </pluginRepository>
   </pluginRepositories>
+
+  <dependencies>
+    <dependency>
+        <groupId>org.eclipse.jgit</groupId>
+        <artifactId>org.eclipse.jgit</artifactId>
+        <version>0.5.1.51-g96b2e76</version>
+        <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
 </project>
