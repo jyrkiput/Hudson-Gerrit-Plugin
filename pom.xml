@@ -40,6 +40,16 @@
             <version>0.5.1.51-g96b2e76</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>sshtools</groupId>
+            <artifactId>j2ssh-common</artifactId>
+            <version>0.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>sshtools</groupId>
+            <artifactId>j2ssh-core</artifactId>
+            <version>0.2.2</version>
+        </dependency>
     </dependencies>
 
 </project>
