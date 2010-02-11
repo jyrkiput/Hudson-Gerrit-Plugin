@@ -45,10 +45,12 @@ import org.eclipse.jgit.lib.Repository;
 public class GerritNotifier extends Notifier {
 
     private final String name;
+    private final String git_home;
 
     @DataBoundConstructor
     public GerritNotifier(String name) {
         this.name = name;
+        this.git_home = ".git";
     }
 
     /**
@@ -58,37 +60,34 @@ public class GerritNotifier extends Notifier {
         return name;
     }
 
-    private Repository getRepository(File workspace, BuildListener listener) {
-        String git_path = workspace.getAbsolutePath() + File.separatorChar + ".git";
+    File getGitHome(File workspace) {
+        String git_path = workspace.getAbsolutePath() + File.separatorChar + git_home;
         File git_home = new File(git_path);
         if (!git_home.isDirectory()) {
-            listener.getLogger().println("Couldn't find GIT_HOME, tried " + git_path);
             return null;
         }
+        return git_home;
+    }
+
+    private Repository getRepository(File git_home) {
+
         Repository repo = null;
         try {
             repo = new Repository(git_home);
         } catch (IOException e) {
-            listener.getLogger().println(workspace.getAbsolutePath() + " isn't git repository");
             return null;
         }
         return repo;
     }
 
-    private ObjectId getHead(Repository repo, BuildListener listener) {
+    private ObjectId getHead(Repository repo) {
         ObjectId head = null;
         try {
             head = repo.resolve("HEAD");
         } catch (IOException e) {
-            listener.getLogger().println("Failed to resolve HEAD");
             return null;
         }
 
-        if (head == null) {
-            listener.getLogger().println("HEAD is null for " + repo.getDirectory().getAbsolutePath()
-                    + ", are you sure that you're using git?");
-            return null;
-        }
         return head;
     }
 
@@ -114,12 +113,25 @@ public class GerritNotifier extends Notifier {
 
                 public Boolean invoke(File workspace, VirtualChannel channel) {
                     // f and file represents the same thing
-                    Repository repo = getRepository(workspace, listener);
-                    if (repo == null) {
-                        listener.getLogger().println("Failed to get repository");
+                    File git_home = getGitHome(workspace);
+                    if (git_home == null) {
+                        listener.getLogger().println("Failed to find GIT_HOME in "
+                                + workspace.getAbsolutePath());
                         return false;
                     }
-                    ObjectId head = getHead(repo, listener);
+                    Repository repo = getRepository(git_home);
+                    if (repo == null) {
+                        listener.getLogger().println("Failed to read repository from "
+                                + git_home.getAbsolutePath());
+                        return false;
+                    }
+                    ObjectId head = getHead(repo);
+                    if (head == null) {
+                        listener.getLogger().println("HEAD is null for " + repo.getDirectory().getAbsolutePath()
+                                + ", are you sure that you're using git?");
+                        return null;
+                    }
+
                     listener.getLogger().println(head.name());
                     return true;
                 }
