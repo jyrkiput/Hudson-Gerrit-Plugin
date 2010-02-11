@@ -61,12 +61,12 @@ public class GerritNotifier extends Notifier {
     }
 
     File getGitHome(File workspace) {
-        String git_path = workspace.getAbsolutePath() + File.separatorChar + git_home;
-        File git_home = new File(git_path);
-        if (!git_home.isDirectory()) {
+        String git_path = workspace.getAbsolutePath() + File.separatorChar + this.git_home;
+        File git_home_directory = new File(git_path);
+        if (!git_home_directory.isDirectory()) {
             return null;
         }
-        return git_home;
+        return git_home_directory;
     }
 
     private Repository getRepository(File git_home) {
@@ -92,7 +92,8 @@ public class GerritNotifier extends Notifier {
     }
 
     @Override
-    public boolean perform(AbstractBuild build, Launcher launcher, final BuildListener listener) {
+    public boolean perform(AbstractBuild build, Launcher launcher, final BuildListener listener)
+            throws IOException, InterruptedException {
         // this is where you 'build' the project
         // since this is a dummy, we just say 'hello world' and call that a build
 
@@ -105,42 +106,36 @@ public class GerritNotifier extends Notifier {
 
         FilePath ws = build.getWorkspace();
 
-        try {
+        ws.act(new FileCallable<Boolean>() {
+            // if 'file' is on a different node, this FileCallable will
+            // be transfered to that node and executed there.
 
-            ws.act(new FileCallable<Boolean>() {
-                // if 'file' is on a different node, this FileCallable will
-                // be transfered to that node and executed there.
-
-                public Boolean invoke(File workspace, VirtualChannel channel) {
-                    // f and file represents the same thing
-                    File git_home = getGitHome(workspace);
-                    if (git_home == null) {
-                        listener.getLogger().println("Failed to find GIT_HOME in "
-                                + workspace.getAbsolutePath());
-                        return false;
-                    }
-                    Repository repo = getRepository(git_home);
-                    if (repo == null) {
-                        listener.getLogger().println("Failed to read repository from "
-                                + git_home.getAbsolutePath());
-                        return false;
-                    }
-                    ObjectId head = getHead(repo);
-                    if (head == null) {
-                        listener.getLogger().println("HEAD is null for " + repo.getDirectory().getAbsolutePath()
-                                + ", are you sure that you're using git?");
-                        return null;
-                    }
-
-                    listener.getLogger().println(head.name());
-                    return true;
+            public Boolean invoke(File workspace, VirtualChannel channel) {
+                // f and file represents the same thing
+                File git_home_directory = getGitHome(workspace);
+                if (git_home_directory == null) {
+                    listener.getLogger().println("Failed to find GIT_HOME in "
+                            + workspace.getAbsolutePath());
+                    return false;
                 }
-            });
-        } catch (IOException e) {
-            return false;
-        } catch (InterruptedException e2) {
-            return false;
-        }
+                Repository repo = getRepository(git_home_directory);
+                if (repo == null) {
+                    listener.getLogger().println("Failed to read repository from "
+                            + git_home_directory.getAbsolutePath());
+                    return false;
+                }
+                ObjectId head = getHead(repo);
+                if (head == null) {
+                    listener.getLogger().println("HEAD is null for " + repo.getDirectory().getAbsolutePath()
+                            + ", are you sure that you're using git?");
+                    return null;
+                }
+
+                listener.getLogger().println(head.name());
+
+                return true;
+            }
+        });
 
         return true;
     }
