@@ -54,16 +54,28 @@ public class GerritNotifier extends Notifier {
     private final String gerrit_host;
     private final int gerrit_port;
     private final String gerrit_username;
-    private final String knownHosts;
+    
+    private final String approve_value;
+    private final String reject_value;
+    private final String gerrit_approve_command = "gerrit approve --verified=%s --message=%s %s";
+    private final String private_key_file_path;
+    private final String passPhrase;
+
 
     @DataBoundConstructor
-    public GerritNotifier(String name) {
+    public GerritNotifier(String name, String git_home, String gerrit_host, int gerrit_port,
+            String gerrit_username, String approve_value, String reject_value, String private_key_file_path,
+            String passPhrase) {
         this.name = name;
-        this.git_home = ".git";
-        this.gerrit_host = "localhost";
-        this.gerrit_port = 29418;
-        this.gerrit_username = "puttonen";
-        this.knownHosts = "~/.ssh/known_hosts";
+        this.git_home = git_home;
+        this.gerrit_host = gerrit_host;
+        this.gerrit_port = gerrit_port; //29418;
+        this.gerrit_username = gerrit_username;
+        this.approve_value = approve_value;
+        this.reject_value = reject_value;
+        this.private_key_file_path = private_key_file_path;
+        this.passPhrase = passPhrase;
+
     }
 
     /**
