@@ -8,6 +8,7 @@ import com.sshtools.j2ssh.SshClient;
 import com.sshtools.j2ssh.authentication.PublicKeyAuthenticationClient;
 import com.sshtools.j2ssh.session.SessionChannelClient;
 import com.sshtools.j2ssh.transport.IgnoreHostKeyVerification;
+import com.sshtools.j2ssh.transport.TransportProtocolState;
 import com.sshtools.j2ssh.transport.publickey.SshPrivateKey;
 import com.sshtools.j2ssh.transport.publickey.SshPrivateKeyFile;
 import java.io.File;
@@ -46,19 +47,11 @@ public class SSHMarker {
         int result = client.authenticate(pk);
     }
 
-    public String executeCommand(SshClient client, String command) throws IOException {
+    public void executeCommand(SshClient client, String command) throws IOException {
+        
         SessionChannelClient session = client.openSessionChannel();
+        
         session.executeCommand(command);
-        InputStream in = session.getInputStream();
-        byte buffer[] = new byte[255];
-        int read;
-        StringBuffer sb = new StringBuffer();
-        while ((read = in.read(buffer)) > 0) {
-            String out = new String(buffer, 0, read);
-            System.out.println(out);
-            sb.append(out);
-        }
         session.close();
-        return sb.toString();
     }
 }
