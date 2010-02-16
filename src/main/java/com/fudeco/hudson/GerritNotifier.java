@@ -61,17 +61,49 @@ public class GerritNotifier extends Notifier {
     private final String passPhrase;
 
 
+    public String getGerrit_host() {
+        return gerrit_host;
+    }
+
+    public int getGerrit_port() {
+        return gerrit_port;
+    }
+
+    public String getGerrit_username() {
+        return gerrit_username;
+    }
+
+    public String getApprove_value() {
+        return approve_value;
+    }
+
+    public String getReject_value() {
+        return reject_value;
+    }
+
+    public String getGerrit_approve_command() {
+        return gerrit_approve_command;
+    }
+
+    public String getPrivate_key_file_path() {
+        return private_key_file_path;
+    }
+
+    public String getPassPhrase() {
+        return passPhrase;
+    }
+
     @DataBoundConstructor
     public GerritNotifier(String name, String git_home, String gerrit_host, int gerrit_port,
             String gerrit_username, String approve_value, String reject_value, String private_key_file_path,
             String passPhrase) {
         this.name = name;
-        this.git_home = git_home;
+        this.git_home = git_home != null ? git_home : ".git";
         this.gerrit_host = gerrit_host;
-        this.gerrit_port = gerrit_port; //29418;
+        this.gerrit_port = gerrit_port != 0 ? gerrit_port : 29418; //29418;
         this.gerrit_username = gerrit_username;
-        this.approve_value = approve_value;
-        this.reject_value = reject_value;
+        this.approve_value = approve_value != null ? approve_value : "1";
+        this.reject_value = reject_value != null ? reject_value : "-1";
         this.private_key_file_path = private_key_file_path;
         this.passPhrase = passPhrase;
 
@@ -83,6 +115,11 @@ public class GerritNotifier extends Notifier {
     public String getName() {
         return name;
     }
+
+    public String getGit_home() {
+        return git_home;
+    }
+
 
     File getGitHome(File workspace) {
         String git_path = workspace.getAbsolutePath() + File.separatorChar + this.git_home;
@@ -134,11 +171,6 @@ public class GerritNotifier extends Notifier {
         // since this is a dummy, we just say 'hello world' and call that a build
 
         // this also shows how you can consult the global configuration of the builder
-        if (getDescriptor().useFrench()) {
-            listener.getLogger().println("Bonjour, " + name + "!");
-        } else {
-            listener.getLogger().println("Hello, " + name + "!");
-        }
 
         FilePath ws = build.getWorkspace();
 
@@ -217,14 +249,6 @@ public class GerritNotifier extends Notifier {
     @Extension // this marker indicates Hudson that this is an implementation of an extension point.
     public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
 
-        /**
-         * To persist global configuration information,
-         * simply store it in a field and call save().
-         *
-         * <p>
-         * If you don't want fields to be persisted, use <tt>transient</tt>.
-         */
-        private boolean useFrench;
 
         /**
          * Performs on-the-fly validation of the form field 'name'.
@@ -234,7 +258,7 @@ public class GerritNotifier extends Notifier {
          * @return
          *      Indicates the outcome of the validation. This is sent to the browser.
          */
-        public FormValidation doCheckName(@QueryParameter String value) throws IOException, ServletException {
+        public FormValidation doCheckPassPhrase(@QueryParameter String value) throws IOException, ServletException {
             if (value.length() == 0) {
                 return FormValidation.error("Please set a name");
             }
@@ -253,24 +277,9 @@ public class GerritNotifier extends Notifier {
          * This human readable name is used in the configuration screen.
          */
         public String getDisplayName() {
-            return "Say hello world";
+            return "Gerrit Integration";
         }
 
-        @Override
-        public boolean configure(StaplerRequest req, JSONObject o) throws FormException {
-            // to persist global configuration information,
-            // set that to properties and call save().
-            useFrench = o.getBoolean("useFrench");
-            save();
-            return super.configure(req, o);
-        }
-
-        /**
-         * This method returns true if the global configuration says we should speak French.
-         */
-        public boolean useFrench() {
-            return useFrench;
-        }
     }
 }
 

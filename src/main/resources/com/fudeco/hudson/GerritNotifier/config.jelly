@@ -9,31 +9,41 @@
     Creates a text field that shows the value of the "name" property.
     When submitted, it will be passed to the corresponding constructor parameter.
   -->
-    <f:entry title="Name" field="name">
-        <f:textbox field="name" />
-    </f:entry>
-    <f:entry title="Git Home" field="git_home">
-        <f:textbox field="git_home" />
-    </f:entry>
-    <f:entry title="Gerrit Host" field="gerrit_host">
-        <f:textbox field="gerrit_host" />
-    </f:entry>
-    <f:entry title="Gerrit Port" field="gerrit_port">
-        <f:textbox field="gerrit_port" />
-    </f:entry>
-    <f:entry title="Gerrit Username" field="gerrit_username">
-    <f:textbox field="gerrit_username" />
-    </f:entry>
-    <f:entry title="Gerrit Approve Value" field="approve_value">
-        <f:textbox field="approve_value" />
-    </f:entry>
-    <f:entry title="Gerrit Reject Value" field="reject_value">
-        <f:textbox field="reject_value" />
-    </f:entry>
+    <f:section title="Gerrit options">
+        <f:entry title="Gerrit Host" field="gerrit_host">
+            <f:textbox field="gerrit_host" />
+        </f:entry>
+
+        <f:entry title="Gerrit Username" field="gerrit_username">
+        <f:textbox field="gerrit_username" />
+        </f:entry>
+    
         <f:entry title="Private Key File Path" field="private_key_file_path">
-        <f:textbox field="private_key_file_path" />
-    </f:entry>
-    <f:entry title="Private Key Pass Phrase" field="passPhrase">
-        <f:textbox field="passPhrase" />
-    </f:entry>
+            <f:textbox field="private_key_file_path" />
+        </f:entry>
+
+        <f:entry title="Private Key Pass Phrase" field="passPhrase">
+            <f:password field="passPhrase" />
+        </f:entry>
+
+        <f:section title="Advanced Project Options">
+            <f:advanced>
+                <f:entry title="Git Home" field="git_home">
+                    <f:textbox field="git_home" />
+                </f:entry>
+
+                <f:entry title="Gerrit Port" field="gerrit_port">
+                    <f:textbox field="gerrit_port" />
+                </f:entry>
+
+                <f:entry title="Gerrit Approve Value" field="approve_value">
+                    <f:textbox field="approve_value" />
+                </f:entry>
+
+                <f:entry title="Gerrit Reject Value" field="reject_value">
+                    <f:textbox field="reject_value" />
+                </f:entry>
+          </f:advanced>
+        </f:section>
+    </f:section>
 </j:jelly>
