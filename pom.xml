@@ -50,6 +50,13 @@
             <artifactId>j2ssh-core</artifactId>
             <version>0.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.sshd</groupId>
+            <artifactId>apache-sshd</artifactId>
+            <version>0.3.0</version>
+            <type>pom</type>
+        </dependency>
     </dependencies>
 
 </project>
+
