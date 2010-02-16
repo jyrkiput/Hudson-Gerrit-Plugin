@@ -3,7 +3,6 @@ package com.fudeco.hudson;
 import com.fudeco.hudson.ssh.SSHMarker;
 import com.jcraft.jsch.JSchException;
 import com.sshtools.j2ssh.SshClient;
-import com.sshtools.j2ssh.session.SessionChannelClient;
 import hudson.Launcher;
 import hudson.Extension;
 import hudson.FilePath;
@@ -12,6 +11,7 @@ import hudson.util.FormValidation;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.model.AbstractProject;
+import hudson.model.Result;
 import hudson.remoting.VirtualChannel;
 import hudson.tasks.Builder;
 import hudson.tasks.BuildStepDescriptor;
@@ -26,7 +26,6 @@ import org.kohsuke.stapler.QueryParameter;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.io.InputStream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
@@ -116,24 +115,20 @@ public class GerritNotifier extends Notifier {
         return head;
     }
 
-    private void verifyGerrit() throws JSchException, IOException {
-
-        String gerrit_host_finger_print = "9b:b2:7f:6b:35:14:f0:86:f6:a4:86:59:79:25:eb:a9";
-        String private_key_file_path = "/Users/Jyrki/projects/hudson/gerrit/id_test";
-        
-        String passPhrase = "";
+    private void verifyGerrit(String verify_value, String message, String revision)
+            throws JSchException, IOException {
 
         File privateKeyFile = new File(private_key_file_path);
         SSHMarker marker = new SSHMarker();
         SshClient client = marker.connect(gerrit_host, gerrit_port);
         marker.authenticate(client, gerrit_username, privateKeyFile, passPhrase);
-
-        String result = marker.executeCommand(client, "gerrit ls-projects");
-
+        String command = String.format(gerrit_approve_command, verify_value, message, revision);
+        marker.executeCommand(client, command);
+        client.disconnect();
     }
 
     @Override
-    public boolean perform(AbstractBuild build, Launcher launcher, final BuildListener listener)
+    public boolean perform(final AbstractBuild build, Launcher launcher, final BuildListener listener)
             throws IOException, InterruptedException {
         // this is where you 'build' the project
         // since this is a dummy, we just say 'hello world' and call that a build
@@ -172,9 +167,15 @@ public class GerritNotifier extends Notifier {
                     return null;
                 }
 
-                listener.getLogger().println(head.name());
                 try {
-                    verifyGerrit();
+                    Result r = build.getResult();
+                    if (r.isWorseThan(Result.SUCCESS)) {
+                        verifyGerrit(reject_value, build.getUrl(), head.name());
+                    } else {
+                        verifyGerrit(approve_value, build.getUrl(), head.name());
+                    }
+
+                 
                 } catch (JSchException e) {
                     listener.getLogger().println(e.getMessage());
                     e.printStackTrace(listener.getLogger());
