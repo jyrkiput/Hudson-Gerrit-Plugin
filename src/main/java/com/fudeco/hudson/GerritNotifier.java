@@ -98,12 +98,12 @@ public class GerritNotifier extends Notifier {
             String gerrit_username, String approve_value, String reject_value, String private_key_file_path,
             String passPhrase) {
         this.name = name;
-        this.git_home = git_home != null ? git_home : ".git";
+        this.git_home = git_home;
         this.gerrit_host = gerrit_host;
-        this.gerrit_port = gerrit_port != 0 ? gerrit_port : 29418; //29418;
+        this.gerrit_port = gerrit_port;
         this.gerrit_username = gerrit_username;
-        this.approve_value = approve_value != null ? approve_value : "1";
-        this.reject_value = reject_value != null ? reject_value : "-1";
+        this.approve_value = approve_value;
+        this.reject_value = reject_value;
         this.private_key_file_path = private_key_file_path;
         this.passPhrase = passPhrase;
 
@@ -157,11 +157,11 @@ public class GerritNotifier extends Notifier {
 
         File privateKeyFile = new File(private_key_file_path);
         SSHMarker marker = new SSHMarker();
-        SshClient client = marker.connect(gerrit_host, gerrit_port);
-        marker.authenticate(client, gerrit_username, privateKeyFile, passPhrase);
+        marker.connect(gerrit_host, gerrit_port);
+        marker.authenticate(gerrit_username, privateKeyFile, passPhrase);
         String command = String.format(gerrit_approve_command, verify_value, message, revision);
-        marker.executeCommand(client, command);
-        client.disconnect();
+        marker.executeCommand(command);
+        marker.disconnect();
     }
 
     @Override
@@ -251,22 +251,70 @@ public class GerritNotifier extends Notifier {
 
 
         /**
-         * Performs on-the-fly validation of the form field 'name'.
+         * Performs on-the-fly validation of the form field 'passPhrase'.
          *
          * @param value
          *      This parameter receives the value that the user has typed.
          * @return
          *      Indicates the outcome of the validation. This is sent to the browser.
          */
-        public FormValidation doCheckPassPhrase(@QueryParameter String value) throws IOException, ServletException {
+        String path_to_private_key_file = null;
+        String pass_phrase = null;
+        
+        public FormValidation doCheckGerrit_username(@QueryParameter String value) throws IOException, ServletException {
             if (value.length() == 0) {
                 return FormValidation.error("Please set a name");
             }
-            if (value.length() < 4) {
-                return FormValidation.warning("Isn't the name too short?");
+            return FormValidation.ok();
+        }
+
+        public FormValidation doCheckGerrit_host(@QueryParameter String value) throws IOException, ServletException {
+            if (value.length() == 0) {
+                return FormValidation.error("Please set a host");
             }
             return FormValidation.ok();
         }
+        
+        public FormValidation doCheckPrivate_key_file_path(@QueryParameter String value) throws IOException, ServletException {
+            if (value.length() == 0) {
+                return FormValidation.error("Please set a path to private key file");
+            }
+            File f = new File(value);
+            if(!f.exists())
+            {
+                return FormValidation.error("File doesn't exists");
+            }
+            if (!SSHMarker.IsPrivateKeyFileValid(f))
+            {
+                return FormValidation.error("Private key file is not valid");
+            }
+            path_to_private_key_file = value;
+
+            return FormValidation.ok();
+        }
+
+        public FormValidation doCheckPassPhrase(@QueryParameter String value) throws IOException, ServletException {
+
+            if(path_to_private_key_file == null) {
+                return FormValidation.error("Define path to private key file first");
+            }
+            File f = new File(path_to_private_key_file);
+            if(!f.exists())
+            {
+                return FormValidation.error("No private key file");
+            }
+            if (!SSHMarker.IsPrivateKeyFileValid(f))
+            {
+                return FormValidation.error("Private key file is not valid");
+            }
+            if (!SSHMarker.CheckPassPhrase(f, value))
+            {
+                return FormValidation.error("Passphrase is not valid");
+            }
+            return FormValidation.ok();
+        }
+
+
 
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
             // indicates that this builder can be used with all kinds of project types 
