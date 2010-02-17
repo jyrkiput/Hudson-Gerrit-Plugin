@@ -15,35 +15,36 @@
         </f:entry>
 
         <f:entry title="Gerrit Username" field="gerrit_username">
-        <f:textbox field="gerrit_username" />
+            <f:textbox field="gerrit_username" default="${descriptor.getGerritUsername()}"/>
         </f:entry>
-    
+
         <f:entry title="Private Key File Path" field="private_key_file_path">
-            <f:textbox field="private_key_file_path" />
+            <f:textbox field="private_key_file_path" default="${descriptor.getPrivateKeyFilePath()}"/>
         </f:entry>
 
         <f:entry title="Private Key Pass Phrase" field="passPhrase">
-            <f:password field="passPhrase" />
+            <f:password field="passPhrase"/>
         </f:entry>
 
         <f:section title="Advanced Project Options">
             <f:advanced>
                 <f:entry title="Git Home" field="git_home">
-                    <f:textbox field="git_home" default=".git"/>
+                    <f:textbox field="git_home" default="${descriptor.getGitHome()}" />
                 </f:entry>
 
                 <f:entry title="Gerrit Port" field="gerrit_port">
-                    <f:textbox field="gerrit_port" default="29418"/>
+                    <f:textbox field="gerrit_port" default="${descriptor.getGerritPort()}"/>
                 </f:entry>
 
                 <f:entry title="Gerrit Approve Value" field="approve_value">
-                    <f:textbox field="approve_value" default="+1"/>
+                    <f:textbox field="approve_value" default="${descriptor.getApproveValue()}"/>
                 </f:entry>
 
                 <f:entry title="Gerrit Reject Value" field="reject_value">
-                    <f:textbox field="reject_value" default="-1"/>
+                    <f:textbox field="reject_value" default="${descriptor.getRejectValue()}"/>
                 </f:entry>
           </f:advanced>
         </f:section>
+
     </f:section>
 </j:jelly>

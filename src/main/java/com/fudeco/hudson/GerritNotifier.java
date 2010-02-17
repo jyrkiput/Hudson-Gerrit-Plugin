@@ -2,7 +2,6 @@ package com.fudeco.hudson;
 
 import com.fudeco.hudson.ssh.SSHMarker;
 import com.jcraft.jsch.JSchException;
-import com.sshtools.j2ssh.SshClient;
 import hudson.Launcher;
 import hudson.Extension;
 import hudson.FilePath;
@@ -30,25 +29,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /**
- * Sample {@link Builder}.
  *
- * <p>
- * When the user configures the project and enables this builder,
- * {@link DescriptorImpl#newInstance(StaplerRequest)} is invoked
- * and a new {@link GerritNotifier} is created. The created
- * instance is persisted to the project configuration XML by using
- * XStream, so this allows you to use instance fields (like {@link #name})
- * to remember the configuration.
- *
- * <p>
- * When a build is performed, the {@link #perform(Build, Launcher, BuildListener)} method
- * will be invoked. 
- *
- * @author Kohsuke Kawaguchi
  */
 public class GerritNotifier extends Notifier {
 
-    private final String name;
     private final String git_home;
     private final String gerrit_host;
     private final int gerrit_port;
@@ -93,11 +77,11 @@ public class GerritNotifier extends Notifier {
         return passPhrase;
     }
 
+
     @DataBoundConstructor
     public GerritNotifier(String name, String git_home, String gerrit_host, int gerrit_port,
             String gerrit_username, String approve_value, String reject_value, String private_key_file_path,
             String passPhrase) {
-        this.name = name;
         this.git_home = git_home;
         this.gerrit_host = gerrit_host;
         this.gerrit_port = gerrit_port;
@@ -107,13 +91,6 @@ public class GerritNotifier extends Notifier {
         this.private_key_file_path = private_key_file_path;
         this.passPhrase = passPhrase;
 
-    }
-
-    /**
-     * We'll use this from the <tt>config.jelly</tt>.
-     */
-    public String getName() {
-        return name;
     }
 
     public String getGit_home() {
@@ -260,7 +237,7 @@ public class GerritNotifier extends Notifier {
          */
         String path_to_private_key_file = null;
         String pass_phrase = null;
-        
+
         public FormValidation doCheckGerrit_username(@QueryParameter String value) throws IOException, ServletException {
             if (value.length() == 0) {
                 return FormValidation.error("Please set a name");
@@ -270,7 +247,7 @@ public class GerritNotifier extends Notifier {
 
         public FormValidation doCheckGerrit_host(@QueryParameter String value) throws IOException, ServletException {
             if (value.length() == 0) {
-                return FormValidation.error("Please set a host");
+                return FormValidation.error("Please set a gerritHost");
             }
             return FormValidation.ok();
         }
@@ -328,6 +305,66 @@ public class GerritNotifier extends Notifier {
             return "Gerrit Integration";
         }
 
+        private String gitHome;
+        private String gerritHost;
+        private int gerritPort = 29418;
+        private String gerritUsername;
+
+        private String approveValue;
+        private String rejectValue;
+        private String privateKeyFilePath;
+        private String passPhrase;
+
+        @Override
+        public boolean configure(StaplerRequest req, JSONObject o) throws FormException {
+            // to persist global configuration information,
+            // set that to properties and call save().
+            JSONObject g = o.getJSONObject("Gerrit");
+
+            gerritHost = g.getString("gerrit_host");
+            gitHome = g.getString("git_home");
+            gerritPort = g.getInt("gerrit_port");
+            gerritUsername = g.getString("gerrit_username");
+            approveValue = g.getString("approve_value");
+            rejectValue = g.getString("reject_value");
+            privateKeyFilePath = g.getString("private_key_file_path");
+            passPhrase = g.getString("passPhrase");
+            save();
+            return super.configure(req, o);
+        }
+
+
+
+        public String getGerritHost() {
+            return gerritHost;
+        }
+
+        public int getGerritPort() {
+            return gerritPort;
+        }
+
+        public String getGerritUsername() {
+            return gerritUsername;
+        }
+
+        public String getGitHome() {
+            return gitHome == null ? ".git" : gitHome;
+        }
+        public String getApproveValue() {
+            return approveValue == null ? "+1" : approveValue;
+        }
+
+        public String getRejectValue() {
+            return rejectValue == null ? "-1" : rejectValue;
+        }
+
+        public String getPrivateKeyFilePath() {
+            return privateKeyFilePath;
+        }
+
+        public String getPassPhrase() {
+            return passPhrase;
+        }
     }
 }
 

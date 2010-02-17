@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager" verified="true">
     <list default="true" readonly="true" id="c2ba6528-49e9-4180-98c8-d27863747877" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-gerrit_username.html" afterPath="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-gerrit_username.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gerrit.ipr" afterPath="$PROJECT_DIR$/gerrit.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/help-globalConfig.html" afterPath="$PROJECT_DIR$/src/main/webapp/help-globalConfig.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gerrit.iml" afterPath="$PROJECT_DIR$/gerrit.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fudeco/hudson/GerritNotifier.java" afterPath="$PROJECT_DIR$/src/main/java/com/fudeco/hudson/GerritNotifier.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/config.jelly" afterPath="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/config.jelly" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gerrit.iws" afterPath="$PROJECT_DIR$/gerrit.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/global.jelly" afterPath="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/global.jelly" />
     </list>
     <ignored path=".idea/workspace.xml" />
     <ignored path="gerrit.iws" />
@@ -23,21 +29,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/main/java/com/fudeco/hudson/GerritNotifier.java" line="50" class="com.fudeco.hudson.GerritNotifier" package="com.fudeco.hudson">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -79,64 +70,73 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="35" selection-start="476" selection-end="476" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GerritNotifier.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fudeco/hudson/GerritNotifier.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="260" column="39" selection-start="8749" selection-end="8749" vertical-scroll-proportion="0.14482759">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="help-name.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-name.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.jelly" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/index.jelly">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.jelly" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/config.jelly">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="47" selection-start="750" selection-end="750" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="global.jelly" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/global.jelly">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="36" selection-start="699" selection-end="699" vertical-scroll-proportion="0.0">
+            <state line="6" column="130" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SSHMarker.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fudeco/hudson/ssh/SSHMarker.java">
+      <file leaf-file-name="help-globalConfig.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/help-globalConfig.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="13" selection-start="666" selection-end="666" vertical-scroll-proportion="0.0">
+            <state line="2" column="108" selection-start="120" selection-end="120" vertical-scroll-proportion="0.07317073">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="help-Gerrit_global.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-Gerrit_global.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="0" selection-start="7" selection-end="7" vertical-scroll-proportion="-1.2631578">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="help-private_key_file_path.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-private_key_file_path.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="29" selection-start="35" selection-end="35" vertical-scroll-proportion="-0.6315789">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="help-passPhrase.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-passPhrase.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="49" selection-start="55" selection-end="55" vertical-scroll-proportion="-0.6315789">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="help-git_home.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-git_home.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="97" selection-start="103" selection-end="103" vertical-scroll-proportion="-0.6315789">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="help-gerrit_host.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-gerrit_host.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="68" selection-start="43" selection-end="43" vertical-scroll-proportion="-1.2631578">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="help-gerrit_port.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-gerrit_port.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="35" selection-start="41" selection-end="41" vertical-scroll-proportion="-0.6315789">
               <folding />
             </state>
           </provider>
@@ -155,6 +155,17 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/config.jelly" />
         <option value="$PROJECT_DIR$/src/main/java/com/fudeco/hudson/GerritNotifier.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-gerrit_username.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-gerrit_host.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-gerrit_port.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-git_home.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-approve_value.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-reject_value.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-private_key_file_path.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-passPhrase.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-Gerrit_global.html" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/global.jelly" />
+        <option value="$PROJECT_DIR$/src/main/webapp/help-globalConfig.html" />
       </list>
     </option>
   </component>
@@ -208,7 +219,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -246,6 +256,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -314,66 +328,45 @@
               <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hudson" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gerrit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gerrit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hudson" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ssh" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="Project" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="73" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="126" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="options.lastSelected" value="MavenSettings" />
-    <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="85" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="94" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="883" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="887" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="90" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="122" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="options.lastSelected" value="MavenSettings" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="Maven.gerrit [org.jvnet.hudson.tools:maven-hpi-plugin:1.42:run]">
@@ -485,6 +478,39 @@
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="snapshooter" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -642,24 +668,24 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="10" y="22" width="1260" height="694" extended-state="0" />
-    <editor active="false" />
+    <frame x="10" y="22" width="1260" height="683" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32874355" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3285968" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39609236" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30017763" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32874355" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.09909166" sideWeight="0.72646534" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.09413708" sideWeight="0.6585366" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11395541" sideWeight="0.72646534" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24938068" sideWeight="0.6585366" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39721254" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3292683" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26110125" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -698,56 +724,110 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/sshd/sshd-core/0.3.0/sshd-core-0.3.0-sources.jar!/org/apache/sshd/SshClient.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/index.jelly">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="147" column="6" selection-start="5516" selection-end="5516" vertical-scroll-proportion="-2.2090394" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="35" selection-start="476" selection-end="476" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fudeco/hudson/ssh/SSHMarker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="13" selection-start="666" selection-end="666" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/index.jelly">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-name.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/global.jelly">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="36" selection-start="699" selection-end="699" vertical-scroll-proportion="0.0">
+        <state line="67" column="57" selection-start="2341" selection-end="2341" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/config.jelly">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="47" selection-start="750" selection-end="750" vertical-scroll-proportion="0.0">
+        <state line="47" column="0" selection-start="492" selection-end="2053" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/fudeco/hudson/GerritNotifier.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="260" column="39" selection-start="8749" selection-end="8749" vertical-scroll-proportion="0.14482759">
+        <state line="322" column="0" selection-start="10877" selection-end="10931" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-gerrit_username.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="49" selection-start="55" selection-end="55" vertical-scroll-proportion="-0.6315789">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-name.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-gerrit_port.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="35" selection-start="41" selection-end="41" vertical-scroll-proportion="-0.6315789">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-gerrit_host.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="68" selection-start="43" selection-end="43" vertical-scroll-proportion="-1.2631578">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-git_home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="97" selection-start="103" selection-end="103" vertical-scroll-proportion="-0.6315789">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-approve_value.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="46" selection-start="52" selection-end="52" vertical-scroll-proportion="-0.6315789">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-reject_value.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="29" selection-start="35" selection-end="35" vertical-scroll-proportion="-0.6315789">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-private_key_file_path.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="29" selection-start="35" selection-end="35" vertical-scroll-proportion="-0.6315789">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-passPhrase.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="49" selection-start="55" selection-end="55" vertical-scroll-proportion="-0.6315789">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/help-Gerrit_global.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="7" selection-end="7" vertical-scroll-proportion="-1.2631578">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/fudeco/hudson/GerritNotifier/global.jelly">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="130" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/help-globalConfig.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="108" selection-start="120" selection-end="120" vertical-scroll-proportion="0.07317073">
           <folding />
         </state>
       </provider>
