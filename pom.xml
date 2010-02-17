@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.jvnet.hudson.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>1.323</version><!-- which version of Hudson is this plugin built against? -->
+        <version>1.346</version><!-- which version of Hudson is this plugin built against? -->
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -62,12 +62,6 @@
             <groupId>sshtools</groupId>
             <artifactId>j2ssh-core</artifactId>
             <version>0.2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sshd</groupId>
-            <artifactId>apache-sshd</artifactId>
-            <version>0.3.0</version>
-            <type>pom</type>
         </dependency>
     </dependencies>
 
