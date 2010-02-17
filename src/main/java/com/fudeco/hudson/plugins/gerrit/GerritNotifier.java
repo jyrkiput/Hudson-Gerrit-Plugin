@@ -1,6 +1,6 @@
-package com.fudeco.hudson;
+package com.fudeco.hudson.plugins.gerrit;
 
-import com.fudeco.hudson.ssh.SSHMarker;
+import com.fudeco.hudson.plugins.gerrit.ssh.SSHMarker;
 import com.jcraft.jsch.JSchException;
 import hudson.Launcher;
 import hudson.Extension;
@@ -12,7 +12,6 @@ import hudson.model.BuildListener;
 import hudson.model.AbstractProject;
 import hudson.model.Result;
 import hudson.remoting.VirtualChannel;
-import hudson.tasks.Builder;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
@@ -150,7 +149,7 @@ public class GerritNotifier extends Notifier {
         // this also shows how you can consult the global configuration of the builder
 
         FilePath ws = build.getWorkspace();
-
+        
         ws.act(new FileCallable<Boolean>() {
             // if 'file' is on a different node, this FileCallable will
             // be transfered to that node and executed there.
@@ -179,6 +178,7 @@ public class GerritNotifier extends Notifier {
                 try {
                     Result r = build.getResult();
                     if (r.isWorseThan(Result.SUCCESS)) {
+                        
                         verifyGerrit(reject_value, build.getUrl(), head.name());
                     } else {
                         verifyGerrit(approve_value, build.getUrl(), head.name());
