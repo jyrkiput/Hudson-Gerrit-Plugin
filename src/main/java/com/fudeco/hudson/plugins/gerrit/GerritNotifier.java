@@ -2,34 +2,36 @@ package com.fudeco.hudson.plugins.gerrit;
 
 import com.fudeco.hudson.plugins.gerrit.ssh.SSHMarker;
 import com.jcraft.jsch.JSchException;
-import hudson.Launcher;
+import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.FilePath.FileCallable;
-import hudson.util.FormValidation;
+import hudson.Launcher;
 import hudson.model.AbstractBuild;
-import hudson.model.BuildListener;
 import hudson.model.AbstractProject;
+import hudson.model.BuildListener;
 import hudson.model.Result;
 import hudson.remoting.VirtualChannel;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
-import java.io.File;
+import hudson.util.FormValidation;
 import net.sf.json.JSONObject;
-import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.QueryParameter;
-
-import javax.servlet.ServletException;
-import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.StaplerRequest;
+
+import javax.servlet.ServletException;
+import java.io.File;
+import java.io.IOException;
 
 /**
  *
  */
+@SuppressWarnings({"UnusedDeclaration"})
 public class GerritNotifier extends Notifier {
 
     private final String git_home;
@@ -77,8 +79,9 @@ public class GerritNotifier extends Notifier {
     }
 
 
+    @SuppressWarnings({"UnusedDeclaration"})
     @DataBoundConstructor
-    public GerritNotifier(String name, String git_home, String gerrit_host, int gerrit_port,
+    public GerritNotifier(String git_home, String gerrit_host, int gerrit_port,
             String gerrit_username, String approve_value, String reject_value, String private_key_file_path,
             String passPhrase) {
         this.git_home = git_home;
@@ -108,7 +111,7 @@ public class GerritNotifier extends Notifier {
 
     private Repository getRepository(File git_home) {
 
-        Repository repo = null;
+        Repository repo;
         try {
             repo = new Repository(git_home);
         } catch (IOException e) {
@@ -118,7 +121,7 @@ public class GerritNotifier extends Notifier {
     }
 
     private ObjectId getHead(Repository repo) {
-        ObjectId head = null;
+        ObjectId head;
         try {
             head = repo.resolve("HEAD");
         } catch (IOException e) {
@@ -129,7 +132,7 @@ public class GerritNotifier extends Notifier {
     }
 
     private void verifyGerrit(String verify_value, String message, String revision)
-            throws JSchException, IOException {
+            throws IOException {
 
         File privateKeyFile = new File(private_key_file_path);
         SSHMarker marker = new SSHMarker();
@@ -143,14 +146,10 @@ public class GerritNotifier extends Notifier {
     @Override
     public boolean perform(final AbstractBuild build, Launcher launcher, final BuildListener listener)
             throws IOException, InterruptedException {
-        // this is where you 'build' the project
-        // since this is a dummy, we just say 'hello world' and call that a build
-
-        // this also shows how you can consult the global configuration of the builder
 
         FilePath ws = build.getWorkspace();
         
-        ws.act(new FileCallable<Boolean>() {
+        return ws.act(new FileCallable<Boolean>() {
             // if 'file' is on a different node, this FileCallable will
             // be transfered to that node and executed there.
 
@@ -159,48 +158,56 @@ public class GerritNotifier extends Notifier {
                 File git_home_directory = getGitHome(workspace);
                 if (git_home_directory == null) {
                     listener.getLogger().println("Failed to find GIT_HOME in "
-                            + workspace.getAbsolutePath());
+                            + workspace.getAbsolutePath() + File.separatorChar + GerritNotifier.this.git_home);
+
+                    build.setResult(Result.ABORTED);
                     return false;
                 }
                 Repository repo = getRepository(git_home_directory);
                 if (repo == null) {
                     listener.getLogger().println("Failed to read repository from "
                             + git_home_directory.getAbsolutePath());
+                    build.setResult(Result.ABORTED);
                     return false;
                 }
                 ObjectId head = getHead(repo);
                 if (head == null) {
                     listener.getLogger().println("HEAD is null for " + repo.getDirectory().getAbsolutePath()
                             + ", are you sure that you're using git?");
+                    build.setResult(Result.ABORTED);
                     return null;
                 }
 
                 try {
                     Result r = build.getResult();
+                    EnvVars vars = null;
+                    try {
+                        vars = build.getEnvironment(listener);
+                    } catch (InterruptedException e) {
+                        listener.getLogger().println(e.getMessage());
+                        e.printStackTrace();
+                    }
+                    String buildUrl = "No build url.";
+                    if (vars.containsKey("BUILD_URL")) {
+                        buildUrl = vars.get("BUILD_URL");
+                    }
                     if (r.isWorseThan(Result.SUCCESS)) {
-                        
-                        verifyGerrit(reject_value, build.getUrl(), head.name());
+                        verifyGerrit(reject_value, buildUrl, head.name());
                     } else {
                         verifyGerrit(approve_value, build.getUrl(), head.name());
                     }
 
-                 
-                } catch (JSchException e) {
-                    listener.getLogger().println(e.getMessage());
-                    e.printStackTrace(listener.getLogger());
-                    return false;
                 } catch (IOException e) {
                     listener.getLogger().println(e.getMessage());
                     e.printStackTrace(listener.getLogger());
+                    build.setResult(Result.ABORTED);
                     return false;
                 }
-
 
                 return true;
             }
         });
 
-        return true;
     }
 
     // overrided for better type safety.
@@ -223,36 +230,28 @@ public class GerritNotifier extends Notifier {
      * See <tt>views/hudson/plugins/hello_world/GerritNotifier/*.jelly</tt>
      * for the actual HTML fragment for the configuration screen.
      */
+    @SuppressWarnings({"UnusedDeclaration"})
     @Extension // this marker indicates Hudson that this is an implementation of an extension point.
     public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
 
 
-        /**
-         * Performs on-the-fly validation of the form field 'passPhrase'.
-         *
-         * @param value
-         *      This parameter receives the value that the user has typed.
-         * @return
-         *      Indicates the outcome of the validation. This is sent to the browser.
-         */
-        String path_to_private_key_file = null;
-        String pass_phrase = null;
-
-        public FormValidation doCheckGerrit_username(@QueryParameter String value) throws IOException, ServletException {
+        String path_to_private_key_file;
+        
+        public FormValidation doCheckGerrit_username(@QueryParameter String value)  {
             if (value.length() == 0) {
                 return FormValidation.error("Please set a name");
             }
             return FormValidation.ok();
         }
 
-        public FormValidation doCheckGerrit_host(@QueryParameter String value) throws IOException, ServletException {
+        public FormValidation doCheckGerrit_host(@QueryParameter String value)  {
             if (value.length() == 0) {
                 return FormValidation.error("Please set a gerritHost");
             }
             return FormValidation.ok();
         }
         
-        public FormValidation doCheckPrivate_key_file_path(@QueryParameter String value) throws IOException, ServletException {
+        public FormValidation doCheckPrivate_key_file_path(@QueryParameter String value)  {
             if (value.length() == 0) {
                 return FormValidation.error("Please set a path to private key file");
             }
@@ -270,7 +269,7 @@ public class GerritNotifier extends Notifier {
             return FormValidation.ok();
         }
 
-        public FormValidation doCheckPassPhrase(@QueryParameter String value) throws IOException, ServletException {
+        public FormValidation doCheckPassPhrase(@QueryParameter String value) {
 
             if(path_to_private_key_file == null) {
                 return FormValidation.error("Define path to private key file first");
@@ -321,14 +320,14 @@ public class GerritNotifier extends Notifier {
             // set that to properties and call save().
             JSONObject g = o.getJSONObject("Gerrit");
 
-            gerritHost = g.getString("gerrit_host");
-            gitHome = g.getString("git_home");
-            gerritPort = g.getInt("gerrit_port");
-            gerritUsername = g.getString("gerrit_username");
-            approveValue = g.getString("approve_value");
-            rejectValue = g.getString("reject_value");
-            privateKeyFilePath = g.getString("private_key_file_path");
-            passPhrase = g.getString("passPhrase");
+            gerritHost = g.has("gerrit_host") ? g.getString("gerrit_host") : "";
+            gitHome = g.has("git_home") ? g.getString("git_home") : ".git";
+            gerritPort = g.has("gerrit_port") ? g.getInt("gerrit_port") : 29418;
+            gerritUsername = g.has("gerrit_username") ? g.getString("gerrit_username") : "";
+            approveValue = g.has("approve_value") ? g.getString("approve_value") : "+1";
+            rejectValue = g.has("reject_value") ? g.getString("reject_value") : "-1";
+            privateKeyFilePath = g.has("private_key_file_path") ? g.getString("private_key_file_path") : "";
+            passPhrase = g.has("passPhrase") ? g.getString("passPhrase") : "";
             save();
             return super.configure(req, o);
         }

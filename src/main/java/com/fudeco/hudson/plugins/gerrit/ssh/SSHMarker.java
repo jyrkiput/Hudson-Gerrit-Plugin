@@ -11,8 +11,8 @@ import com.sshtools.j2ssh.transport.IgnoreHostKeyVerification;
 import com.sshtools.j2ssh.transport.publickey.InvalidSshKeyException;
 import com.sshtools.j2ssh.transport.publickey.SshPrivateKey;
 import com.sshtools.j2ssh.transport.publickey.SshPrivateKeyFile;
-import java.io.File;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -22,6 +22,7 @@ import java.io.IOException;
 public class SSHMarker {
 
     private SshClient client = null;
+    @SuppressWarnings({"UnusedDeclaration"})
     public SSHMarker() {
     }
 
@@ -45,23 +46,23 @@ public class SSHMarker {
         //file.setFormat(new SshtoolsPrivateKeyFormat(), passPhrase);
         SshPrivateKey key = file.toPrivateKey(passPhrase);
         pk.setKey(key);
-        int result = client.authenticate(pk);
+        client.authenticate(pk);
     }
+    @SuppressWarnings({"BooleanMethodIsAlwaysInverted"})
     public static boolean IsPrivateKeyFileValid(File f) {
 
-        SshPrivateKeyFile file = null;
+        SshPrivateKeyFile file;
         try {
             file = SshPrivateKeyFile.parse(f);
         } catch (IOException e) {
             return false;
         }
-        if (file == null) {
-            return false;
+        return file != null;
         }
-        return true;
-    }
+    
+    @SuppressWarnings({"BooleanMethodIsAlwaysInverted"})
     public static boolean CheckPassPhrase(File f, String p) {
-        SshPrivateKeyFile file = null;
+        SshPrivateKeyFile file;
         try {
             file = SshPrivateKeyFile.parse(f);
         } catch (IOException e) {
@@ -69,6 +70,7 @@ public class SSHMarker {
         }
 
         try {
+            @SuppressWarnings({"UnusedAssignment"})
             SshPrivateKey key = file.toPrivateKey(p);
         } catch (InvalidSshKeyException e) {
             return false;
