@@ -304,66 +304,6 @@ public class GerritNotifier extends Notifier {
             return "Gerrit Integration";
         }
 
-        private String gitHome;
-        private String gerritHost;
-        private int gerritPort = 29418;
-        private String gerritUsername;
-
-        private String approveValue;
-        private String rejectValue;
-        private String privateKeyFilePath;
-        private String passPhrase;
-
-        @Override
-        public boolean configure(StaplerRequest req, JSONObject o) throws FormException {
-            // to persist global configuration information,
-            // set that to properties and call save().
-            JSONObject g = o.getJSONObject("Gerrit");
-
-            gerritHost = g.has("gerrit_host") ? g.getString("gerrit_host") : "";
-            gitHome = g.has("git_home") ? g.getString("git_home") : ".git";
-            gerritPort = g.has("gerrit_port") ? g.getInt("gerrit_port") : 29418;
-            gerritUsername = g.has("gerrit_username") ? g.getString("gerrit_username") : "";
-            approveValue = g.has("approve_value") ? g.getString("approve_value") : "+1";
-            rejectValue = g.has("reject_value") ? g.getString("reject_value") : "-1";
-            privateKeyFilePath = g.has("private_key_file_path") ? g.getString("private_key_file_path") : "";
-            passPhrase = g.has("passPhrase") ? g.getString("passPhrase") : "";
-            save();
-            return super.configure(req, o);
-        }
-
-
-
-        public String getGerritHost() {
-            return gerritHost;
-        }
-
-        public int getGerritPort() {
-            return gerritPort;
-        }
-
-        public String getGerritUsername() {
-            return gerritUsername;
-        }
-
-        public String getGitHome() {
-            return gitHome == null ? ".git" : gitHome;
-        }
-        public String getApproveValue() {
-            return approveValue == null ? "+1" : approveValue;
-        }
-
-        public String getRejectValue() {
-            return rejectValue == null ? "-1" : rejectValue;
-        }
-
-        public String getPrivateKeyFilePath() {
-            return privateKeyFilePath;
-        }
-
-        public String getPassPhrase() {
-            return passPhrase;
-        }
     }
 }
 

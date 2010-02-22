@@ -9,10 +9,17 @@
 
     <groupId>com.fudeco.hudson</groupId>
     <artifactId>gerrit</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1</version>
     <packaging>hpi</packaging>
     <name>Hudson Gerrit plugin</name>
 
+    <developers>
+        <developer>
+            <id>jyrkiput</id>
+            <name>Jyrki Puttonen</name>
+            <email>jyrki.puttonen@fudeco.com</email>
+        </developer>
+    </developers>
     <!-- get every artifact through maven.glassfish.org, which proxies all the artifacts that we need -->
     <build>
         <plugins>
