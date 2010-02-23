@@ -191,10 +191,12 @@ public class GerritNotifier extends Notifier {
                     if (vars.containsKey("BUILD_URL")) {
                         buildUrl = vars.get("BUILD_URL");
                     }
-                    if (r.isWorseThan(Result.SUCCESS)) {
-                        verifyGerrit(reject_value, buildUrl, head.name());
+                    if (r.isBetterOrEqualTo(Result.SUCCESS)) {
+                        verifyGerrit(approve_value, buildUrl, head.name());
+                    } else if (r.isBetterOrEqualTo(Result.UNSTABLE)) {
+                        verifyGerrit(reject_value, "Build is unstable " + buildUrl, head.name());
                     } else {
-                        verifyGerrit(approve_value, build.getUrl(), head.name());
+                        verifyGerrit(reject_value, "Build failed " + buildUrl, head.name());
                     }
 
                 } catch (IOException e) {
