@@ -19,7 +19,7 @@
         </f:entry>
 
         <f:entry title="Private Key File Path" field="private_key_file_path">
-            <f:textbox field="private_key_file_path" />
+            <f:textbox field="private_key_file_path" default="${descriptor.guessSSHKeyFile()}" />
         </f:entry>
 
         <f:entry title="Private Key Pass Phrase" field="passPhrase">

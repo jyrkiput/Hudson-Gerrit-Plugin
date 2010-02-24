@@ -306,6 +306,20 @@ public class GerritNotifier extends Notifier {
             return "Gerrit Integration";
         }
 
+        public String guessSSHKeyFile() {
+            String user_home = System.getProperty("user.home");
+            String ssh_path = user_home + File.separatorChar + ".ssh" + File.separatorChar;
+
+            File f = new File(ssh_path + "id_dsa");
+            if(f.exists()) {
+                return ssh_path + "id_dsa";
+            }
+            f = new File(ssh_path + "id_rsa");
+            if(f.exists()) {
+                return ssh_path + "id_rsa";
+            }
+            return "";
+        }
     }
 }
 
