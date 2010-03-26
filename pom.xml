@@ -9,10 +9,14 @@
 
     <groupId>com.fudeco.hudson</groupId>
     <artifactId>gerrit</artifactId>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>Hudson Gerrit plugin</name>
-
+  
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
     <developers>
         <developer>
             <id>jyrkiput</id>
