@@ -77,11 +77,14 @@ public class SSHMarker {
         }
         return true;
     }
-    public void executeCommand(String command) throws IOException {
+    public void executeCommand(String command) throws IOException, InterruptedException {
         assert client != null;
         SessionChannelClient session = client.openSessionChannel();
-        
         session.executeCommand(command);
+        session.setLocalEOF();
+        while(!session.isRemoteEOF()) {
+            Thread.sleep(10);
+        }
         session.close();
     }
 
