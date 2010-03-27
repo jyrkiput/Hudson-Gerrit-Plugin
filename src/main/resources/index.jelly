@@ -4,5 +4,5 @@
   Since we don't really have anything dynamic here, let's just use static HTML. 
 -->
 <div>
-    This plugin integrates Hudson to Gerrit code review system. 
+    This plugin integrates Hudson to <a href="http://gerrit.googlecode.com">Gerrit</a> code review system. 
 </div>

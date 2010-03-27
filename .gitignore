@@ -3,3 +3,4 @@ work
 gerrit.iws
 gerrit.ipr
 gerrit.iml
+*.DS_Store
