@@ -10,6 +10,7 @@
     When submitted, it will be passed to the corresponding constructor parameter.
   -->
     <f:section title="Gerrit options">
+
         <f:entry title="Gerrit Host" field="gerrit_host">
             <f:textbox field="gerrit_host"/>
         </f:entry>
@@ -38,6 +39,10 @@
 
                 <f:entry title="Gerrit Approve Value" field="approve_value">
                     <f:textbox field="approve_value" default="+1"/>
+                </f:entry>
+
+                <f:entry title="Gerrit Unstable Value" field="unstable_value">
+                    <f:textbox field="unstable_value" default="-1"/>
                 </f:entry>
 
                 <f:entry title="Gerrit Reject Value" field="reject_value">

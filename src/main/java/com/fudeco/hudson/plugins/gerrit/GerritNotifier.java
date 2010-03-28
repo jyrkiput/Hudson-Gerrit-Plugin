@@ -1,7 +1,6 @@
 package com.fudeco.hudson.plugins.gerrit;
 
 import com.fudeco.hudson.plugins.gerrit.ssh.SSHMarker;
-import com.jcraft.jsch.JSchException;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
@@ -17,14 +16,11 @@ import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
-import net.sf.json.JSONObject;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
-import org.kohsuke.stapler.StaplerRequest;
 
-import javax.servlet.ServletException;
 import java.io.File;
 import java.io.IOException;
 
@@ -40,8 +36,9 @@ public class GerritNotifier extends Notifier {
     private final String gerrit_username;
     
     private final String approve_value;
+    private final String unstable_value;
     private final String reject_value;
-    private final String gerrit_approve_command = "gerrit approve --verified=%s --message=%s %s";
+    private final String gerrit_approve_command = "gerrit approve --verified=%s --message=\"%s\" %s";
     private final String private_key_file_path;
     private final String passPhrase;
 
@@ -62,6 +59,9 @@ public class GerritNotifier extends Notifier {
         return approve_value;
     }
 
+    public String getUnstable_value() {
+        return unstable_value;
+    }
     public String getReject_value() {
         return reject_value;
     }
@@ -82,13 +82,14 @@ public class GerritNotifier extends Notifier {
     @SuppressWarnings({"UnusedDeclaration"})
     @DataBoundConstructor
     public GerritNotifier(String git_home, String gerrit_host, int gerrit_port,
-            String gerrit_username, String approve_value, String reject_value, String private_key_file_path,
+            String gerrit_username, String approve_value, String unstable_value, String reject_value, String private_key_file_path,
             String passPhrase) {
         this.git_home = git_home;
         this.gerrit_host = gerrit_host;
         this.gerrit_port = gerrit_port;
         this.gerrit_username = gerrit_username;
         this.approve_value = approve_value;
+        this.unstable_value = unstable_value;
         this.reject_value = reject_value;
         this.private_key_file_path = private_key_file_path;
         this.passPhrase = passPhrase;
@@ -131,17 +132,49 @@ public class GerritNotifier extends Notifier {
         return head;
     }
 
-    private void verifyGerrit(String verify_value, String message, String revision)
-            throws IOException {
+    private String generateComment(String verify_value, String message, String revision) {
+        return String.format(gerrit_approve_command, verify_value, message, revision);
+    }
+
+    private String generateApproveCommand(final String jobUrl, final String revision) {
+        return generateComment(approve_value, jobUrl, revision);
+    }
+
+    private String generateUnstableCommand(final String jobUrl, final String revision) {
+        return generateComment(unstable_value, "Build is unstable " + jobUrl, revision);
+    }
+
+    private String generateFailedCommand(final String jobUrl, final String revision) {
+        return generateComment(reject_value, "Build failed " + jobUrl, revision);
+    }
+
+    public String getUnstableCommand() {
+        return "ssh://" + gerrit_username + "@" + gerrit_host + ":"+ gerrit_port + " " +
+                generateUnstableCommand("JOB_URL", "Revision");
+    }
+    public String getFailedCommand() {
+        return "ssh://" + gerrit_username + "@" + gerrit_host + ":"+ gerrit_port + " " +
+                generateFailedCommand("JOB_URL", "Revision");
+    }
+
+   public String getApproveCommand() {
+        return "ssh://" + gerrit_username + "@" + gerrit_host + ":"+ gerrit_port + " " +
+                generateApproveCommand("JOB_URL", "Revision");
+    }
+
+
+
+    private void verifyGerrit(String message)
+            throws IOException, InterruptedException {
 
         File privateKeyFile = new File(private_key_file_path);
         SSHMarker marker = new SSHMarker();
         marker.connect(gerrit_host, gerrit_port);
         marker.authenticate(gerrit_username, privateKeyFile, passPhrase);
-        String command = String.format(gerrit_approve_command, verify_value, message, revision);
-        marker.executeCommand(command);
+        marker.executeCommand(message);
         marker.disconnect();
     }
+
 
     @Override
     public boolean perform(final AbstractBuild build, Launcher launcher, final BuildListener listener)
@@ -193,13 +226,13 @@ public class GerritNotifier extends Notifier {
                     }
                     if (r.isBetterOrEqualTo(Result.SUCCESS)) {
                         listener.getLogger().println("Approving " + head.name());
-                        verifyGerrit(approve_value, buildUrl, head.name());
+                        verifyGerrit(generateApproveCommand(buildUrl, head.name()));
                     } else if (r.isBetterOrEqualTo(Result.UNSTABLE)) {
                         listener.getLogger().println("Rejecting unstable " + head.name());
-                        verifyGerrit(reject_value, "Build is unstable " + buildUrl, head.name());
+                        verifyGerrit(generateUnstableCommand(buildUrl, head.name()));
                     } else {
                         listener.getLogger().println("Rejecting failed " + head.name());
-                        verifyGerrit(reject_value, "Build failed " + buildUrl, head.name());
+                        verifyGerrit(generateFailedCommand(buildUrl, head.name()));
                     }
 
                 } catch (IOException e) {
@@ -207,6 +240,9 @@ public class GerritNotifier extends Notifier {
                     e.printStackTrace(listener.getLogger());
                     build.setResult(Result.ABORTED);
                     return false;
+                } catch (InterruptedException e) {
+                    listener.getLogger().println("Interrupted: " + e.getMessage());
+                    build.setResult(Result.ABORTED);
                 }
 
                 return true;
