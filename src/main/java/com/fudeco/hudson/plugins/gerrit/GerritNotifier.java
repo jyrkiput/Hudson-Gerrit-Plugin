@@ -1,5 +1,6 @@
 package com.fudeco.hudson.plugins.gerrit;
 
+import com.fudeco.hudson.plugins.gerrit.git.GitTools;
 import com.fudeco.hudson.plugins.gerrit.ssh.SSHMarker;
 import hudson.EnvVars;
 import hudson.Extension;
@@ -42,6 +43,16 @@ public class GerritNotifier extends Notifier {
     private final String private_key_file_path;
     private final String passPhrase;
 
+    transient SSHMarker marker;
+    transient GitTools git;
+
+    public void setMarker(SSHMarker marker) {
+        this.marker = marker;
+    }
+
+    public void setGitTools(GitTools git) {
+        this.git = git;
+    }
 
     public String getGerrit_host() {
         return gerrit_host;
@@ -93,6 +104,8 @@ public class GerritNotifier extends Notifier {
         this.reject_value = reject_value;
         this.private_key_file_path = private_key_file_path;
         this.passPhrase = passPhrase;
+        this.marker = new SSHMarker();
+        this.git = new GitTools();
 
     }
 
@@ -101,50 +114,19 @@ public class GerritNotifier extends Notifier {
     }
 
 
-    File getGitHome(File workspace) {
-        String git_path = workspace.getAbsolutePath() + File.separatorChar + this.git_home;
-        File git_home_directory = new File(git_path);
-        if (!git_home_directory.isDirectory()) {
-            return null;
-        }
-        return git_home_directory;
-    }
-
-    private Repository getRepository(File git_home) {
-
-        Repository repo;
-        try {
-            repo = new Repository(git_home);
-        } catch (IOException e) {
-            return null;
-        }
-        return repo;
-    }
-
-    private ObjectId getHead(Repository repo) {
-        ObjectId head;
-        try {
-            head = repo.resolve("HEAD");
-        } catch (IOException e) {
-            return null;
-        }
-
-        return head;
-    }
-
-    private String generateComment(String verify_value, String message, String revision) {
+    public String generateComment(String verify_value, String message, String revision) {
         return String.format(gerrit_approve_command, verify_value, message, revision);
     }
 
-    private String generateApproveCommand(final String jobUrl, final String revision) {
+    public String generateApproveCommand(final String jobUrl, final String revision) {
         return generateComment(approve_value, jobUrl, revision);
     }
 
-    private String generateUnstableCommand(final String jobUrl, final String revision) {
+    public String generateUnstableCommand(final String jobUrl, final String revision) {
         return generateComment(unstable_value, "Build is unstable " + jobUrl, revision);
     }
 
-    private String generateFailedCommand(final String jobUrl, final String revision) {
+    public String generateFailedCommand(final String jobUrl, final String revision) {
         return generateComment(reject_value, "Build failed " + jobUrl, revision);
     }
 
@@ -168,7 +150,6 @@ public class GerritNotifier extends Notifier {
             throws IOException, InterruptedException {
 
         File privateKeyFile = new File(private_key_file_path);
-        SSHMarker marker = new SSHMarker();
         marker.connect(gerrit_host, gerrit_port);
         marker.authenticate(gerrit_username, privateKeyFile, passPhrase);
         marker.executeCommand(message);
@@ -188,28 +169,9 @@ public class GerritNotifier extends Notifier {
 
             public Boolean invoke(File workspace, VirtualChannel channel) {
                 // f and file represents the same thing
-                File git_home_directory = getGitHome(workspace);
-                if (git_home_directory == null) {
-                    listener.getLogger().println("Failed to find GIT_HOME in "
-                            + workspace.getAbsolutePath() + File.separatorChar + GerritNotifier.this.git_home);
 
-                    build.setResult(Result.ABORTED);
-                    return false;
-                }
-                Repository repo = getRepository(git_home_directory);
-                if (repo == null) {
-                    listener.getLogger().println("Failed to read repository from "
-                            + git_home_directory.getAbsolutePath());
-                    build.setResult(Result.ABORTED);
-                    return false;
-                }
-                ObjectId head = getHead(repo);
-                if (head == null) {
-                    listener.getLogger().println("HEAD is null for " + repo.getDirectory().getAbsolutePath()
-                            + ", are you sure that you're using git?");
-                    build.setResult(Result.ABORTED);
-                    return null;
-                }
+                ObjectId head = null;
+                head = git.getHead(workspace, GerritNotifier.this.git_home);
 
                 try {
                     Result r = build.getResult();
@@ -224,6 +186,7 @@ public class GerritNotifier extends Notifier {
                     if (vars.containsKey("BUILD_URL")) {
                         buildUrl = vars.get("BUILD_URL");
                     }
+
                     if (r.isBetterOrEqualTo(Result.SUCCESS)) {
                         listener.getLogger().println("Approving " + head.name());
                         verifyGerrit(generateApproveCommand(buildUrl, head.name()));
@@ -283,6 +246,7 @@ public class GerritNotifier extends Notifier {
                 return FormValidation.error("Please set a name");
             }
             return FormValidation.ok();
+
         }
 
         public FormValidation doCheckGerrit_host(@QueryParameter String value)  {
