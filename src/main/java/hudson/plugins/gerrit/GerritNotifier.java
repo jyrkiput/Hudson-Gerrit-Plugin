@@ -1,7 +1,7 @@
-package com.fudeco.hudson.plugins.gerrit;
+package hudson.plugins.gerrit;
 
-import com.fudeco.hudson.plugins.gerrit.git.GitTools;
-import com.fudeco.hudson.plugins.gerrit.ssh.SSHMarker;
+import hudson.plugins.gerrit.git.GitTools;
+import hudson.plugins.gerrit.ssh.SSHMarker;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
@@ -18,7 +18,6 @@ import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 

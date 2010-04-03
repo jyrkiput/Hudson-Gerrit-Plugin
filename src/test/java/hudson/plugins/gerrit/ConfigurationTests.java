@@ -1,4 +1,4 @@
-package com.fudeco.hudson.plugins.gerrit;
+package hudson.plugins.gerrit;
 
 import com.gargoylesoftware.htmlunit.html.*;
 import hudson.model.FreeStyleProject;
@@ -49,7 +49,7 @@ public class ConfigurationTests extends GerritNotifierTestCase {
     public void testConfigurationOptionsExists() throws IOException, SAXException {
         FreeStyleProject project = createProject();
         HtmlPage configPage = new WebClient().goTo("/job/" + project.getName() + "/configure");
-        testSettingExists("com-fudeco-hudson-plugins-gerrit-GerritNotifier", configPage);
+        testSettingExists("hudson-plugins-gerrit-GerritNotifier", configPage);
         testHelpAndSetting("_.gerrit_username", configPage);
 
         testHelpAndSetting("_.gerrit_host", configPage);
@@ -59,10 +59,6 @@ public class ConfigurationTests extends GerritNotifierTestCase {
         testHelpAndSetting("_.approve_value", configPage);
         testHelpAndSetting("_.unstable_value", configPage);
         testHelpAndSetting("_.git_home", configPage);
-
-    }
-
-    private void setValur(String settingName, String settingValue, HtmlPage configPage) {
 
     }
     

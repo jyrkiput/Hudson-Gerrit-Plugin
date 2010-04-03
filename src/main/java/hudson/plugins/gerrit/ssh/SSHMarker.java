@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.fudeco.hudson.plugins.gerrit.ssh;
+package hudson.plugins.gerrit.ssh;
 
 import com.sshtools.j2ssh.SshClient;
 import com.sshtools.j2ssh.authentication.PublicKeyAuthenticationClient;

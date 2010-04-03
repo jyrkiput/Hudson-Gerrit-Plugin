@@ -1,4 +1,4 @@
-package com.fudeco.hudson.plugins.gerrit;
+package hudson.plugins.gerrit;
 
 import hudson.FilePath;
 import hudson.model.Build;

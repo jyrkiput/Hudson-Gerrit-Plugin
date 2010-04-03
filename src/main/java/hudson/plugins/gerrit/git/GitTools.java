@@ -1,7 +1,5 @@
-package com.fudeco.hudson.plugins.gerrit.git;
+package hudson.plugins.gerrit.git;
 
-import com.fudeco.hudson.plugins.gerrit.GerritNotifier;
-import hudson.model.Result;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 

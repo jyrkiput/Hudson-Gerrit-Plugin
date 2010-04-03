@@ -1,12 +1,11 @@
-package com.fudeco.hudson.plugins.gerrit;
+package hudson.plugins.gerrit;
 
-import com.fudeco.hudson.plugins.gerrit.git.GitTools;
-import com.fudeco.hudson.plugins.gerrit.ssh.SSHMarker;
+import hudson.plugins.gerrit.git.GitTools;
+import hudson.plugins.gerrit.ssh.SSHMarker;
 import hudson.model.Build;
 import hudson.model.FreeStyleProject;
 import hudson.tasks.Builder;
 import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.jvnet.hudson.test.HudsonTestCase;
