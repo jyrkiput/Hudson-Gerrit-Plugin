@@ -40,11 +40,13 @@ public class GerritNotifier extends Notifier {
     private final String unstable_value;
     private final String reject_value;
     private final String gerrit_approve_command = "gerrit approve --verified=%s --message=\"%s\" %s";
+    protected static final String NO_BUILD_URL = "No build url.";
     private final String private_key_file_path;
     private final String passPhrase;
 
     transient SSHMarker marker;
     transient GitTools git;
+
 
     public void setMarker(SSHMarker marker) {
         this.marker = marker;
@@ -182,7 +184,7 @@ public class GerritNotifier extends Notifier {
                         listener.getLogger().println(e.getMessage());
                         e.printStackTrace();
                     }
-                    String buildUrl = "No build url.";
+                    String buildUrl = NO_BUILD_URL;
                     if (vars.containsKey("BUILD_URL")) {
                         buildUrl = vars.get("BUILD_URL");
                     }
