@@ -7,7 +7,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.fudeco.hudson</groupId>
     <artifactId>gerrit</artifactId>
     <version>0.4-SNAPSHOT</version>
     <packaging>hpi</packaging>
