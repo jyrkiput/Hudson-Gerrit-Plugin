@@ -23,18 +23,19 @@ import org.kohsuke.stapler.QueryParameter;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  *
  */
 @SuppressWarnings({"UnusedDeclaration"})
-public class GerritNotifier extends Notifier {
+public class GerritNotifier extends Notifier implements Serializable {
 
     private final String git_home;
     private final String gerrit_host;
     private final int gerrit_port;
     private final String gerrit_username;
-    
+
     private final String approve_value;
     private final String unstable_value;
     private final String reject_value;
@@ -163,56 +164,60 @@ public class GerritNotifier extends Notifier {
             throws IOException, InterruptedException {
 
         FilePath ws = build.getWorkspace();
-        
-        return ws.act(new FileCallable<Boolean>() {
+
+        //Hacky
+        if (marker == null) {
+            marker = new SSHMarker();
+        }
+        String head = ws.act(new FileCallable<String>() {
             // if 'file' is on a different node, this FileCallable will
-            // be transfered to that node and executed there.
+            // be transferred to that node and executed there.
 
-            public Boolean invoke(File workspace, VirtualChannel channel) {
+            @Override
+            public String invoke(File workspace, VirtualChannel channel) throws IOException{
                 // f and file represents the same thing
-
-                ObjectId head = null;
-                head = git.getHead(workspace, GerritNotifier.this.git_home);
-
-                try {
-                    Result r = build.getResult();
-                    EnvVars vars = null;
-                    try {
-                        vars = build.getEnvironment(listener);
-                    } catch (InterruptedException e) {
-                        listener.getLogger().println(e.getMessage());
-                        e.printStackTrace();
-                    }
-                    String buildUrl = NO_BUILD_URL;
-                    if (vars.containsKey("BUILD_URL")) {
-                        buildUrl = vars.get("BUILD_URL");
-                    }
-
-                    if (r.isBetterOrEqualTo(Result.SUCCESS)) {
-                        listener.getLogger().println("Approving " + head.name());
-                        verifyGerrit(generateApproveCommand(buildUrl, head.name()));
-                    } else if (r.isBetterOrEqualTo(Result.UNSTABLE)) {
-                        listener.getLogger().println("Rejecting unstable " + head.name());
-                        verifyGerrit(generateUnstableCommand(buildUrl, head.name()));
-                    } else {
-                        listener.getLogger().println("Rejecting failed " + head.name());
-                        verifyGerrit(generateFailedCommand(buildUrl, head.name()));
-                    }
-
-                } catch (IOException e) {
-                    listener.getLogger().println(e.getMessage());
-                    e.printStackTrace(listener.getLogger());
-                    build.setResult(Result.ABORTED);
-                    return false;
-                } catch (InterruptedException e) {
-                    listener.getLogger().println("Interrupted: " + e.getMessage());
-                    build.setResult(Result.ABORTED);
+                if (git == null) {
+                    git = new GitTools();
                 }
-
-                return true;
+                return git.getHead(workspace, GerritNotifier.this.git_home).name();
             }
         });
+        try {
+            Result r = build.getResult();
+            EnvVars vars = null;
+            try {
+                vars = build.getEnvironment(listener);
+            } catch (InterruptedException e) {
+                listener.getLogger().println(e.getMessage());
+                e.printStackTrace();
+            }
+            String buildUrl = NO_BUILD_URL;
+            if (vars.containsKey("BUILD_URL")) {
+                buildUrl = vars.get("BUILD_URL");
+            }
 
+            if (r.isBetterOrEqualTo(Result.SUCCESS)) {
+                listener.getLogger().println("Approving " + head);
+                verifyGerrit(generateApproveCommand(buildUrl, head));
+            } else if (r.isBetterOrEqualTo(Result.UNSTABLE)) {
+                listener.getLogger().println("Rejecting unstable " + head);
+                verifyGerrit(generateUnstableCommand(buildUrl, head));
+            } else {
+                listener.getLogger().println("Rejecting failed " + head);
+                verifyGerrit(generateFailedCommand(buildUrl, head));
+            }
+
+        } catch (IOException e) {
+            listener.getLogger().println(e.getMessage());
+            e.printStackTrace(listener.getLogger());
+            build.setResult(Result.ABORTED);
+            return false;
+        } catch (InterruptedException e) {
+            listener.getLogger().println("Interrupted: " + e.getMessage());
+            build.setResult(Result.ABORTED);
+        }
+
+        return true;
     }
 
     // overrided for better type safety.
@@ -241,7 +246,7 @@ public class GerritNotifier extends Notifier {
 
 
         String path_to_private_key_file;
-        
+
         public FormValidation doCheckGerrit_username(@QueryParameter String value)  {
             if (value.length() == 0) {
                 return FormValidation.error("Please set a name");
@@ -256,7 +261,7 @@ public class GerritNotifier extends Notifier {
             }
             return FormValidation.ok();
         }
-        
+
         public FormValidation doCheckPrivate_key_file_path(@QueryParameter String value)  {
             if (value.length() == 0) {
                 return FormValidation.error("Please set a path to private key file");
@@ -299,7 +304,7 @@ public class GerritNotifier extends Notifier {
 
 
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
-            // indicates that this builder can be used with all kinds of project types 
+            // indicates that this builder can be used with all kinds of project types
             return true;
         }
 
