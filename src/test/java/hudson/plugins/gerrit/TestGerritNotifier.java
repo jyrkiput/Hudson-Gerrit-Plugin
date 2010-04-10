@@ -2,12 +2,14 @@ package hudson.plugins.gerrit;
 
 import hudson.FilePath;
 import hudson.model.Build;
+import hudson.model.BuildListener;
 import hudson.model.Result;
 import hudson.remoting.VirtualChannel;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.jvnet.hudson.test.FailureBuilder;
 import org.jvnet.hudson.test.UnstableBuilder;
+import org.mockito.Mock;
 
 
 import java.io.File;
@@ -19,10 +21,12 @@ import static org.mockito.Mockito.*;
 
 public class TestGerritNotifier extends GerritNotifierTestCase {
 
+    BuildListener listener = null;
     @Override
     @BeforeClass
     public void setUp() throws Exception {
         super.setUp();
+        listener = mock(BuildListener.class);
     }
     
     @Test
@@ -48,7 +52,7 @@ public class TestGerritNotifier extends GerritNotifierTestCase {
 
         final Build build = doBuild(new UnstableBuilder());
         assertEquals(Result.UNSTABLE, build.getResult());
-        String command = notifier.generateUnstableCommand(GerritNotifier.NO_BUILD_URL, hexString);
+        String command = notifier.generateUnstableCommand(notifier.getBuildUrl(build, listener), hexString);
         verify(marker).executeCommand(command);
     }
 
@@ -57,7 +61,8 @@ public class TestGerritNotifier extends GerritNotifierTestCase {
 
         final Build build = doBuild(null);
         assertEquals(Result.SUCCESS, build.getResult());
-        String command = notifier.generateApproveCommand(GerritNotifier.NO_BUILD_URL, hexString);
+        
+        String command = notifier.generateApproveCommand(notifier.getBuildUrl(build, listener), hexString);
         verify(marker).executeCommand(command);
     }
 
@@ -66,8 +71,8 @@ public class TestGerritNotifier extends GerritNotifierTestCase {
 
         final Build build = doBuild(new FailureBuilder());
         assertEquals(Result.FAILURE, build.getResult());
-        String command = notifier.generateFailedCommand(GerritNotifier.NO_BUILD_URL, hexString);
+        String command = notifier.generateFailedCommand(notifier.getBuildUrl(build, listener), hexString);
         verify(marker).executeCommand(command);
-    }
+    }    
 }
 

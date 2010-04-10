@@ -184,17 +184,8 @@ public class GerritNotifier extends Notifier implements Serializable {
         });
         try {
             Result r = build.getResult();
-            EnvVars vars = null;
-            try {
-                vars = build.getEnvironment(listener);
-            } catch (InterruptedException e) {
-                listener.getLogger().println(e.getMessage());
-                e.printStackTrace();
-            }
-            String buildUrl = NO_BUILD_URL;
-            if (vars.containsKey("BUILD_URL")) {
-                buildUrl = vars.get("BUILD_URL");
-            }
+
+            String buildUrl = getBuildUrl(build, listener);
 
             if (r.isBetterOrEqualTo(Result.SUCCESS)) {
                 listener.getLogger().println("Approving " + head);
@@ -218,6 +209,21 @@ public class GerritNotifier extends Notifier implements Serializable {
         }
 
         return true;
+    }
+
+    String getBuildUrl(AbstractBuild build, BuildListener listener) throws IOException {
+        EnvVars vars = null;
+        try {
+            vars = build.getEnvironment(listener);
+        } catch (InterruptedException e) {
+            listener.getLogger().println(e.getMessage());
+            e.printStackTrace();
+        }
+        String buildUrl = NO_BUILD_URL;
+        if (vars.containsKey("BUILD_URL")) {
+            buildUrl = vars.get("BUILD_URL");
+        }
+        return buildUrl;
     }
 
     // overrided for better type safety.
