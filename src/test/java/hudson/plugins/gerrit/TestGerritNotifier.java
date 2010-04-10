@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 import static org.mockito.Mockito.*;
 
 
-public class GerritNotifierTests extends GerritNotifierTestCase {
+public class TestGerritNotifier extends GerritNotifierTestCase {
 
     @Override
     @BeforeClass

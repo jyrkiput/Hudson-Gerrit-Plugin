@@ -9,9 +9,9 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class ConfigurationTests extends GerritNotifierTestCase {
+public class TestConfiguration extends GerritNotifierTestCase {
 
-    static Logger logger = Logger.getLogger(ConfigurationTests.class.getName());
+    static Logger logger = Logger.getLogger(TestConfiguration.class.getName());
     
     @Override
     @BeforeClass
