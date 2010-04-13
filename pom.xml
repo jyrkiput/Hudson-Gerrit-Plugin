@@ -64,6 +64,7 @@
             </extension>
         </extensions>
     </build>
+
     <repositories>
         <repository>
             <id>m.g.o-public</id>
@@ -100,6 +101,12 @@
             <groupId>sshtools</groupId>
             <artifactId>j2ssh-core</artifactId>
             <version>0.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.hudson.plugins</groupId>
+            <artifactId>git</artifactId>
+            <version>0.8.3-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
