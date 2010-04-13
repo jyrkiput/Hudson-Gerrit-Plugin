@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimeZone;
 import java.util.logging.Logger;
@@ -22,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 /**
  *
  */
-public class GitTests {
+public class TestGit {
 
     static int counter = 0;
 
@@ -69,7 +68,7 @@ public class GitTests {
 		}
     }
 
-    public static Logger logger = Logger.getLogger(GitTests.class.getName());
+    public static Logger logger = Logger.getLogger(TestGit.class.getName());
 
     @Rule
     public static TemporaryFolder gitRepoFolder = new TemporaryFolder();
