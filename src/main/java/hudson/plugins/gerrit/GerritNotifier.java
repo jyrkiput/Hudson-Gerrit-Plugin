@@ -173,7 +173,6 @@ public class GerritNotifier extends Notifier implements Serializable {
             // if 'file' is on a different node, this FileCallable will
             // be transferred to that node and executed there.
 
-            @Override
             public String invoke(File workspace, VirtualChannel channel) throws IOException{
                 // f and file represents the same thing
                 if (git == null) {
@@ -235,7 +234,7 @@ public class GerritNotifier extends Notifier implements Serializable {
     }
 
     public BuildStepMonitor getRequiredMonitorService() {
-        return BuildStepMonitor.NONE;
+        return BuildStepMonitor.BUILD;
     }
 
     /**
